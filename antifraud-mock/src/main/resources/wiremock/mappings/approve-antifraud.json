@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/antifraud",
+    "bodyPatterns" : [
+      {"matchesJsonPath" : "$.holder"},
+      {"matchesJsonPath" : "$[?(@.number != '4542759458958822')]"},
+      {"matchesJsonPath" : "$.csc"},
+      {"matchesJsonPath" : "$.document"},
+      {"matchesJsonPath" : "$.monthExpiration"},
+      {"matchesJsonPath" : "$.yearExpiration"}
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "response-approve-antifraud.json"
+  }
+}

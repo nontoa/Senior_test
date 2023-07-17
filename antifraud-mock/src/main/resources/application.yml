@@ -1,0 +1,9 @@
+server.port: 8972
+
+mock:
+  services:
+    antifraud-mock:
+      enabled: true
+      port: 10983
+      securePort: false
+      resourcesPath: wiremock
