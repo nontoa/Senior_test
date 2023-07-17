@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/payments/refund",
+    "bodyPatterns" : [
+      {"matchesJsonPath" : "$.orderId"},
+      {"matchesJsonPath" : "$[?(@.reason != 'Invalid')]"}
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "response-approve-refund.json"
+  }
+}

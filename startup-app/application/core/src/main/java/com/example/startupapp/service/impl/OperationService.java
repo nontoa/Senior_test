@@ -1,8 +1,8 @@
 package com.example.startupapp.service.impl;
 
 import org.modelmapper.ModelMapper;
-import com.example.startupapp.cache.repository.OrderRepository;
-import com.example.startupapp.cache.repository.TransactionRepository;
+import com.example.startupapp.repository.OrderRepository;
+import com.example.startupapp.repository.TransactionRepository;
 import com.example.startupapp.dto.operations.OrderInformationDto;
 import com.example.startupapp.dto.operations.TransactionInformationDto;
 import com.example.startupapp.exception.PaymentException;
@@ -42,8 +42,8 @@ public class OperationService implements IOperationService {
 	@Override
 	public TransactionInformationDto getTransactionInformation(final String transactionId) throws PaymentException {
 		final var transaction = transactionRepository.findById(transactionId);
-		if (transaction != null){
-			return new ModelMapper().map(transaction, TransactionInformationDto.class);
+		if (transaction.isPresent()){
+			return new ModelMapper().map(transaction.get(), TransactionInformationDto.class);
 		}
 		throw new PaymentException(ERROR_STATUS, "The transaction id is not registered");
 	}
@@ -53,8 +53,9 @@ public class OperationService implements IOperationService {
 	 */
 	@Override
 	public OrderInformationDto getOrderInformation(final Long orderId) throws PaymentException {
-		final var order = orderRepository.findById(orderId);
-		if (order != null){
+		final var orderDao = orderRepository.findById(orderId);
+		if (orderDao.isPresent()){
+			var order = orderDao.get();
 			return OrderInformationMapper.mapOrderInformation(order);
 		}
 		throw new PaymentException(ERROR_STATUS, "The order id is not registered");

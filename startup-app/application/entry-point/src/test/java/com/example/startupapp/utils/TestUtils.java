@@ -23,8 +23,6 @@ public class TestUtils {
 
 		return CreatePaymentDto
 				.builder()
-				.orderId("001")
-				.transactionId("12T34H5")
 				.paymentMethod("Visa")
 				.merchantName("MyStore")
 				.value(new BigDecimal(150000))
@@ -67,7 +65,7 @@ public class TestUtils {
 
 		return CreatePaymentResponseDto
 				.builder()
-				.orderId("001")
+				.orderId(1L)
 				.transactionId("12T34H5")
 				.status(TransactionStatus.APPROVED)
 				.message("Successful approved")
@@ -80,9 +78,8 @@ public class TestUtils {
 
 		return RefundPaymentDto
 				.builder()
-				.orderId("001")
-				.transactionId("12T34H5")
-				.value(new BigDecimal(150000))
+				.orderId(1L)
+				.reason("I want to refund the payment")
 				.build();
 	}
 
@@ -90,11 +87,10 @@ public class TestUtils {
 
 		return RefundPaymentResponseDto
 				.builder()
-				.orderId("001")
+				.orderId(1L)
 				.transactionId("12T34H5")
 				.status(TransactionStatus.APPROVED)
 				.message("Successful approved")
-				.value(new BigDecimal(150000))
 				.build();
 	}
 

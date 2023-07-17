@@ -49,13 +49,13 @@ public class OperationController {
 	}
 
 	/**
-	 * Gets a order information
+	 * Gets an order information
 	 * @param orderId Order id
 	 * @return Order's information
 	 * @throws PaymentException
 	 */
 	@GetMapping(value = RestEndpoint.ORDERS)
-	public ResponseEntity<OrderInformationDto> getOrderInformation(@PathVariable String orderId) throws PaymentException {
+	public ResponseEntity<OrderInformationDto> getOrderInformation(@PathVariable Long orderId) throws PaymentException {
 
 		return new ResponseEntity<>(operationService.getOrderInformation(orderId),
 									HttpStatus.OK);

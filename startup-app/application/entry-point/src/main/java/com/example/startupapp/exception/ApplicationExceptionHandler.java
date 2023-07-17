@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * Class to handle exceptions
@@ -50,31 +49,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	}
 
 	/**
-	 * This method handles {@link JedisException} exception
-	 *
-	 * @param ex The exception.
-	 * @param request The request.
-	 * @return {@link StartupErrorMessage} Error message.
-	 */
-	@ExceptionHandler(value ={JedisException.class})
-	public ResponseEntity<Object> handleJedisException(final JedisException ex, final WebRequest request) {
-
-		final var body = StartupErrorMessage
-				.builder()
-				.status("error")
-				.code(HttpStatus.INTERNAL_SERVER_ERROR.name())
-				.message(ex.getMessage())
-				.build();
-
-		return this.handleExceptionInternal(ex,
-											body,
-											new HttpHeaders(),
-											HttpStatus.INTERNAL_SERVER_ERROR,
-											request);
-	}
-
-	/**
-	 * Handles and unexpected exception.
+	 * Handles unexpected exception.
 	 *
 	 * @param ex The exception
 	 * @param request The request
@@ -93,10 +68,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 		return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
 															 @Nullable Object body,
 															 HttpHeaders headers,

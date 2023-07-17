@@ -1,15 +1,13 @@
 package com.example.startupapp.utils;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.UUID;
 
-import org.aspectj.weaver.ast.Or;
 import com.example.startupapp.constants.OrderStatus;
 import com.example.startupapp.constants.TransactionStatus;
 import com.example.startupapp.constants.TransactionType;
-import com.example.startupapp.dao.OrderDao;
-import com.example.startupapp.dao.TransactionDao;
+import com.example.startupapp.dao.Order;
+import com.example.startupapp.dao.Transaction;
 import com.example.startupapp.dto.payments.CreatePaymentDto;
 import com.example.startupapp.dto.PaymentResponseBankDto;
 import com.example.startupapp.dto.payments.RefundPaymentDto;
@@ -22,12 +20,12 @@ import com.example.startupapp.dto.payments.RefundPaymentDto;
  */
 public class ServiceUtils {
 
-	public static TransactionDao buildTransactionDaoToSave(final TransactionStatus transactionStatus,
-														   final String message,
-														   final Long orderId,
-														   final CreatePaymentDto createPaymentDto){
+	public static Transaction buildTransactionDaoToSave(final TransactionStatus transactionStatus,
+														final String message,
+														final Long orderId,
+														final CreatePaymentDto createPaymentDto){
 
-		return TransactionDao
+		return Transaction
 				.builder()
 				.id(generateTransactionId())
 				.orderId(orderId)
@@ -44,12 +42,12 @@ public class ServiceUtils {
 				.build();
 	}
 
-	public static TransactionDao buildTransactionDaoToSave(final TransactionStatus transactionStatus,
-														   final String message,
-														   final RefundPaymentDto refundPaymentDto,
-														   final TransactionDao firstTransaction){
+	public static Transaction buildTransactionDaoToSave(final TransactionStatus transactionStatus,
+														final String message,
+														final RefundPaymentDto refundPaymentDto,
+														final Transaction firstTransaction){
 
-		return TransactionDao
+		return Transaction
 				.builder()
 				.id(generateTransactionId())
 				.orderId(refundPaymentDto.getOrderId())
@@ -66,25 +64,24 @@ public class ServiceUtils {
 				.build();
 	}
 
-	public static OrderDao buildOrderDaoToSave(final OrderStatus orderStatus,
-										 final CreatePaymentDto createPaymentDto){
+	public static Order buildOrderDaoToSave(final OrderStatus orderStatus){
 
-		return OrderDao
+		return Order
 				.builder()
 				.status(orderStatus)
 				.creationDate(new Timestamp(System.currentTimeMillis()))
 				.build();
 	}
 
-	public static OrderDao updateOrderDao(final OrderDao orderDao,
-										  final PaymentResponseBankDto bankResponse){
+	public static Order updateOrderDao(final Order orderDao,
+									   final PaymentResponseBankDto bankResponse){
 
 		orderDao.setStatus(bankResponse.getStatus().equals(TransactionStatus.APPROVED) ? OrderStatus.CAPTURED : OrderStatus.DECLINED);
 		return orderDao;
 	}
 
-	public static TransactionDao updateTransactionDao(final TransactionDao transactionDao,
-													  final PaymentResponseBankDto bankResponse){
+	public static Transaction updateTransactionDao(final Transaction transactionDao,
+												   final PaymentResponseBankDto bankResponse){
 
 		transactionDao.setStatus(bankResponse.getStatus());
 		transactionDao.setMessage(bankResponse.getMessage());

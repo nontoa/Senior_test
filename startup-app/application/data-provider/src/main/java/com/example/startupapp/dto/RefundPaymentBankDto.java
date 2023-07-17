@@ -20,7 +20,7 @@ public class RefundPaymentBankDto {
 	 * Order Identifier
 	 */
 	@NotNull
-	private String orderId;
+	private Long orderId;
 
 
 	/**

@@ -12,10 +12,11 @@ bankMock:
     url: http://localhost:10982
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# Redis Configuration
-# ----------------------------------------------------------------------------------------------------------------------
-
-redis:
-    host: 127.0.0.1
-    port: 6379
+# Postgresql configuration
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/senior_test
+        username: postgres
+        password: postgres
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect

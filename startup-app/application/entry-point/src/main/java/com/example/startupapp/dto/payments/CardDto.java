@@ -1,7 +1,6 @@
 package com.example.startupapp.dto.payments;
 
-import javax.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +17,7 @@ import lombok.Setter;
 public class CardDto {
 
 	/**
-	 * Card holder name
+	 * cardholder name
 	 */
 	@NotNull
 	private String holder;

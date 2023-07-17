@@ -1,7 +1,6 @@
 package com.example.startupapp.dto.operations;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.example.startupapp.constants.OrderStatus;
 import lombok.Builder;
@@ -19,9 +18,7 @@ import lombok.Setter;
 @Setter
 public class OrderInformationDto {
 
-	private String id;
-
-	private List<String> transactions;
+	private Long id;
 
 	private OrderStatus status;
 

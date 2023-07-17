@@ -28,12 +28,14 @@ public class PaymentResponseMapper {
 	 */
 	public static CreatePaymentResponseDto mapCreatePaymentResponse(
 			final PaymentResponseBankDto createPaymentResponse,
-			final CreatePaymentDto createPaymentDto){
+			final CreatePaymentDto createPaymentDto,
+			final Long orderId,
+			final String transactionId){
 
 		return CreatePaymentResponseDto
 				.builder()
-				.orderId(createPaymentDto.getOrderId())
-				.transactionId(createPaymentDto.getTransactionId())
+				.orderId(orderId)
+				.transactionId(transactionId)
 				.status(createPaymentResponse.getStatus())
 				.message(createPaymentResponse.getMessage())
 				.currency(createPaymentDto.getCurrency())

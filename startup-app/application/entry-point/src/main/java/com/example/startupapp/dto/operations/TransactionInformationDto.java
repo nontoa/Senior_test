@@ -44,6 +44,8 @@ public class TransactionInformationDto {
 
 	private TransactionStatus status;
 
+	private String message;
+
 	private Timestamp creationDate;
 
 }

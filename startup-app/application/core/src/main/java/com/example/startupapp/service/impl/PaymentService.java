@@ -2,8 +2,11 @@ package com.example.startupapp.service.impl;
 
 import org.apache.commons.validator.routines.CreditCardValidator;
 import com.example.startupapp.BankApiMock;
-import com.example.startupapp.cache.repository.TransactionRepository;
-import com.example.startupapp.cache.repository.OrderRepository;
+import com.example.startupapp.dao.Transaction;
+import com.example.startupapp.mapper.CreateRefundMapper;
+import com.example.startupapp.mapper.RefundResponseMapper;
+import com.example.startupapp.repository.TransactionRepository;
+import com.example.startupapp.repository.OrderRepository;
 import com.example.startupapp.constants.OrderStatus;
 import com.example.startupapp.constants.TransactionStatus;
 import com.example.startupapp.dto.payments.CreatePaymentDto;
@@ -13,8 +16,6 @@ import com.example.startupapp.dto.payments.RefundPaymentResponseDto;
 import com.example.startupapp.exception.PaymentException;
 import com.example.startupapp.mapper.CreatePaymentMapper;
 import com.example.startupapp.mapper.PaymentResponseMapper;
-import com.example.startupapp.mapper.CreateRefundMapper;
-import com.example.startupapp.mapper.RefundResponseMapper;
 import com.example.startupapp.service.IPaymentService;
 import com.example.startupapp.utils.ServiceUtils;
 
@@ -63,11 +64,11 @@ public class PaymentService implements IPaymentService {
 
 		validateInformation(createPaymentDto);
 
-		final var orderDao = ServiceUtils.buildOrderDaoToSave(OrderStatus.PENDING, createPaymentDto);
-		final Long orderId = orderRepository.save(orderDao);
+		final var orderDao = ServiceUtils.buildOrderDaoToSave(OrderStatus.PENDING);
+		var order = orderRepository.save(orderDao);
 		final var transactionDao = ServiceUtils.buildTransactionDaoToSave(TransactionStatus.PENDING,
 																		  null,
-																		  orderId,
+																		  order.getId(),
 																		  createPaymentDto);
 		transactionRepository.save(transactionDao);
 
@@ -76,37 +77,45 @@ public class PaymentService implements IPaymentService {
 		//Que pasa si el mock esta abajo y no responde, poner retry y si no actualizar la orden y tx con estado DECLINED no fue psible
 		// contactar a la red
 		final var createPaymentResponseBank =
-				bankApiMock.createPayment(CreatePaymentMapper.mapCreatePayment(createPaymentDto, orderId, transactionDao.getId()));
+				bankApiMock.createPayment(CreatePaymentMapper.mapCreatePayment(createPaymentDto, order.getId(), transactionDao.getId()));
 
-		orderRepository.update(orderId, ServiceUtils.updateOrderDao(orderDao, createPaymentResponseBank));
-		transactionRepository.update(ServiceUtils.updateTransactionDao(transactionDao, createPaymentResponseBank));
-		return PaymentResponseMapper.mapCreatePaymentResponse(createPaymentResponseBank, createPaymentDto);
+		//Si el bank no responde poner la tx y la orden como declined
+
+		orderRepository.save(ServiceUtils.updateOrderDao(orderDao, createPaymentResponseBank));
+		transactionRepository.save(ServiceUtils.updateTransactionDao(transactionDao, createPaymentResponseBank));
+		return PaymentResponseMapper.mapCreatePaymentResponse(createPaymentResponseBank, createPaymentDto, order.getId(),
+															  transactionDao.getId());
 	}
 
 	@Override
 	public RefundPaymentResponseDto refundPayment(final RefundPaymentDto refundPaymentDto)
 			throws PaymentException {
 
-		var order = orderRepository.findById(refundPaymentDto.getOrderId());
-		if (order != null) {
+		var orderDao = orderRepository.findById(refundPaymentDto.getOrderId());
+		if (orderDao.isPresent()) {
+			var order = orderDao.get();
 			if (!order.getStatus().equals(OrderStatus.CAPTURED)) {
 				throw new PaymentException(ERROR_STATUS, "Refund cannot be applied");
 			}
 
+			var parentTransaction = getParentTransaction(refundPaymentDto.getOrderId());
+
 			final var transactionDao = ServiceUtils.buildTransactionDaoToSave(TransactionStatus.PENDING,
 																			  null,
 																			  refundPaymentDto,
-																			  transaction);
+																			  parentTransaction);
 			transactionRepository.save(transactionDao);
 
 			final var createPaymentResponseBank =
 					bankApiMock.refundPayment(CreateRefundMapper.mapRefundPayment(refundPaymentDto));
 
-			transactionRepository.update(ServiceUtils.updateTransactionDao(transactionDao, createPaymentResponseBank));
+			//Si el bank no responde poner la tx como Declined
+
+			transactionRepository.save(ServiceUtils.updateTransactionDao(transactionDao, createPaymentResponseBank));
 
 			order.setStatus(OrderStatus.REFUNDED);
-			orderRepository.update(order.getId(), order);
-			return RefundResponseMapper.mapCreateRefundResponse(createPaymentResponseBank, refundPaymentDto);
+			orderRepository.save(order);
+			return RefundResponseMapper.mapCreateRefundResponse(createPaymentResponseBank, refundPaymentDto, transactionDao.getId());
 		}
 		throw new PaymentException(ERROR_STATUS, "The order does not exists");
 	}
@@ -116,6 +125,15 @@ public class PaymentService implements IPaymentService {
 		if (!cardValidator.isValid(createPaymentDto.getCard().getNumber())) {
 			throw new PaymentException(ERROR_STATUS, "Invalid card number");
 		}
+	}
+
+	private Transaction getParentTransaction(final Long orderId) throws PaymentException {
+
+		var transactions = transactionRepository.findByOrderId(orderId);
+		if (!transactions.isEmpty()) {
+			return transactions.get(0);
+		}
+		throw new PaymentException(ERROR_STATUS, "There is not parent transaction");
 	}
 
 }

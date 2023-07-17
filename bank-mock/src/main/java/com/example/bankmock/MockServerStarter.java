@@ -44,7 +44,6 @@ public class MockServerStarter {
 	 */
 	public void startMocks() {
 
-		LOGGER.info("Starting mocks configuration with WireMock to see more information go to http://wiremock.org/docs/");
 		if (nonNull(mockServiceProperties)) {
 			mockServiceProperties.getServices().forEach(this::startMockService);
 		}

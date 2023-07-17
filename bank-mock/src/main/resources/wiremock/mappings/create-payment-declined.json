@@ -9,7 +9,7 @@
       {"matchesJsonPath" : "$.currency"},
       {"matchesJsonPath" : "$.cardHolderName"},
       {"matchesJsonPath" : "$.cardNumber"},
-      {"matchesJsonPath" : "$.cardCsc"},
+      {"matchesJsonPath" : "$[?(@.cardCsc != '777')]"},
       {"matchesJsonPath" : "$.holderDocument"},
       {"matchesJsonPath" : "$.month"},
       {"matchesJsonPath" : "$.year"}
@@ -17,6 +17,6 @@
   },
   "response": {
     "status": 200,
-    "bodyFileName": "response-create-payment.json"
+    "bodyFileName": "response-decline-payment.json"
   }
 }

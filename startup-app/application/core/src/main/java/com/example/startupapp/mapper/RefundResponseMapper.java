@@ -26,15 +26,15 @@ public class RefundResponseMapper {
 	 * @return {@link RefundPaymentResponseDto}
 	 */
 	public static RefundPaymentResponseDto mapCreateRefundResponse(final PaymentResponseBankDto createRefundResponse,
-																   final RefundPaymentDto refundPaymentDto){
+																   final RefundPaymentDto refundPaymentDto,
+																   final String transactionId){
 
 		return RefundPaymentResponseDto
 				.builder()
 				.orderId(refundPaymentDto.getOrderId())
-				.transactionId(refundPaymentDto.getTransactionId())
+				.transactionId(transactionId)
 				.status(createRefundResponse.getStatus())
 				.message(createRefundResponse.getMessage())
-				.value(refundPaymentDto.getValue())
 				.build();
 	}
 

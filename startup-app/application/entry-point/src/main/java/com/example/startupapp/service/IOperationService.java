@@ -24,6 +24,6 @@ public interface IOperationService {
 	 * @param orderId Order id
 	 * @return Order information
 	 */
-	OrderInformationDto getOrderInformation(final String orderId) throws PaymentException;
+	OrderInformationDto getOrderInformation(final Long orderId) throws PaymentException;
 
 }

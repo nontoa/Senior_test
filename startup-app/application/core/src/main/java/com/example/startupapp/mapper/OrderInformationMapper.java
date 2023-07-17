@@ -1,10 +1,6 @@
 package com.example.startupapp.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.example.startupapp.dao.OrderDao;
-import com.example.startupapp.dao.TransactionDao;
+import com.example.startupapp.dao.Order;
 import com.example.startupapp.dto.operations.OrderInformationDto;
 
 /**
@@ -24,19 +20,14 @@ public class OrderInformationMapper {
 
 	/**
 	 * Builds a {@link OrderInformationDto}
-	 * @param order {@link OrderDao}
+	 * @param order {@link Order}
 	 * @return {@link OrderInformationDto}
 	 */
-	public static OrderInformationDto mapOrderInformation(final OrderDao order){
+	public static OrderInformationDto mapOrderInformation(final Order order){
 
-		List<String> transactions = new ArrayList<>();
-		for(TransactionDao transaction : order.getTransactions()){
-			transactions.add(transaction.getId());
-		}
 		var orderDto = OrderInformationDto
 				.builder()
 				.id(order.getId())
-				.transactions(transactions)
 				.status(order.getStatus())
 				.creationDate(order.getCreationDate())
 				.build();

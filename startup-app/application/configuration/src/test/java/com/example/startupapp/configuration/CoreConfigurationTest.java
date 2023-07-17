@@ -7,8 +7,8 @@ import static org.testng.Assert.assertSame;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.example.startupapp.BankApiMock;
-import com.example.startupapp.cache.repository.OrderRepository;
-import com.example.startupapp.cache.repository.TransactionRepository;
+import com.example.startupapp.repository.OrderRepository;
+import com.example.startupapp.repository.TransactionRepository;
 
 /**
  * Tests {@link CoreConfiguration}.

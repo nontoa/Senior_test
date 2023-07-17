@@ -1,9 +1,9 @@
 package com.example.startupapp.dto.payments;
 
 import java.math.BigDecimal;
-import javax.validation.constraints.NotNull;
 
 import com.example.startupapp.constants.TransactionStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +23,7 @@ public class CreatePaymentResponseDto {
 	 * Order identifier
 	 */
 	@NotNull
-	private String orderId;
+	private Long orderId;
 
 	/**
 	 * Transaction ID related to the payment

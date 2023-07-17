@@ -4,12 +4,11 @@
     "url": "/payments/refund",
     "bodyPatterns" : [
       {"matchesJsonPath" : "$.orderId"},
-      {"matchesJsonPath" : "$.transactionId"},
-      {"matchesJsonPath" : "$.value"}
+      {"matchesJsonPath" : "$[?(@.reason == 'Invalid')]"}
     ]
   },
   "response": {
     "status": 200,
-    "bodyFileName": "response-create-payment.json"
+    "bodyFileName": "response-decline-refund.json"
   }
 }
