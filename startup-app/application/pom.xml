@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- ........................................................................................................... -->
+	<!-- Module metadata -->
+	<!-- ........................................................................................................... -->
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>application</artifactId>
+	<packaging>pom</packaging>
+
+	<!-- ........................................................................................................... -->
+	<!-- Parent metadata -->
+	<!-- ........................................................................................................... -->
+	<parent>
+		<groupId>com.example.startupapp</groupId>
+		<artifactId>startup-app</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project properties -->
+	<!-- ........................................................................................................... -->
+	<properties>
+
+		<!-- Java Configuration -->
+		<java.version>17</java.version>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Spring Cloud -->
+		<spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+
+	</properties>
+
+	<!-- ........................................................................................................... -->
+	<!-- Modules -->
+	<!-- ........................................................................................................... -->
+	<modules>
+		<module>configuration</module>
+		<module>core</module>
+		<module>data-provider</module>
+		<module>entry-point</module>
+	</modules>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project dependencies -->
+	<!-- ........................................................................................................... -->
+	<dependencies>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.4.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>2.13.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Framework -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Spring Cloud -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Redis -->
+		<dependency>
+			<groupId> redis.clients</groupId>
+			<artifactId> jedis</artifactId>
+		</dependency>
+
+		<!-- Spring Data Redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

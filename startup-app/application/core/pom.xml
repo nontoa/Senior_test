@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- ........................................................................................................... -->
+	<!-- Module metadata -->
+	<!-- ........................................................................................................... -->
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.example.startupapp.application</groupId>
+	<artifactId>core</artifactId>
+
+	<!-- ........................................................................................................... -->
+	<!-- Parent metadata -->
+	<!-- ........................................................................................................... -->
+	<parent>
+		<artifactId>application</artifactId>
+		<groupId>com.example.startupapp</groupId>
+		<version>${revision}</version>
+	</parent>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project dependencies -->
+	<!-- ........................................................................................................... -->
+	<dependencies>
+
+		<dependency>
+			<groupId>com.example.startupapp.application</groupId>
+			<artifactId>entry-point</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.example.startupapp.application</groupId>
+			<artifactId>data-provider</artifactId>
+			<version>${revision}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<!-- Model mapper for easily mapping models with the same name of attributes -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

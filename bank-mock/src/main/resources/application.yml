@@ -1,0 +1,9 @@
+server.port: 8971
+
+mock:
+  services:
+    bank-mock:
+      enabled: true
+      port: 10982
+      securePort: false
+      resourcesPath: wiremock

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- ........................................................................................................... -->
+	<!-- Project metadata -->
+	<!-- ........................................................................................................... -->
+	<groupId>com.example.startupapp</groupId>
+	<artifactId>startup-app</artifactId>
+	<name>startup-app</name>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<description>Code test for Standard position</description>
+
+	<!-- ........................................................................................................... -->
+	<!-- Parent metadata -->
+	<!-- ........................................................................................................... -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.1</version>
+		<relativePath/>
+	</parent>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project properties -->
+	<!-- ........................................................................................................... -->
+	<properties>
+		<revision>0.0.1-SNAPSHOT</revision>
+		<app.jar.name>startup-app-${project.version}</app.jar.name>
+
+	</properties>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project modules -->
+	<!-- ........................................................................................................... -->
+	<modules>
+		<module>application</module>
+	</modules>
+
+	<!-- ........................................................................................................... -->
+	<!-- Project building -->
+	<!-- ........................................................................................................... -->
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+
+		<plugins>
+			<!-- Maven compiler plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						**
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						**
+					</annotationProcessorPaths>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+
+			<!-- Maven surefire plugin-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version>
+			</plugin>
+
+			<!-- Jacoco for test coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- attached to Maven test phase -->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

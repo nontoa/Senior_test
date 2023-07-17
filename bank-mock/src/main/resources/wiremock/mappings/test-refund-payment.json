@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/payments/refund",
+    "bodyPatterns" : [
+      {"matchesJsonPath" : "$.orderId"},
+      {"matchesJsonPath" : "$.transactionId"},
+      {"matchesJsonPath" : "$.value"}
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "response-create-payment.json"
+  }
+}
