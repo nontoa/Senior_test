@@ -1,7 +1,6 @@
 package com.example.startupapp.mapper;
 
-import com.example.startupapp.dto.payments.CreatePaymentDto;
-import com.example.startupapp.dto.PaymentResponseBankDto;
+import com.example.startupapp.dao.Transaction;
 import com.example.startupapp.dto.payments.CreatePaymentResponseDto;
 
 
@@ -22,24 +21,22 @@ public class PaymentResponseMapper {
 
 	/**
 	 * Builds a {@link CreatePaymentResponseDto}.
-	 * @param createPaymentResponse {@link PaymentResponseBankDto}
-	 * @param createPaymentDto {@link CreatePaymentDto}
+	 *
+	 * @param transaction {@link Transaction}
 	 * @return {@link CreatePaymentResponseDto}.
 	 */
-	public static CreatePaymentResponseDto mapCreatePaymentResponse(
-			final PaymentResponseBankDto createPaymentResponse,
-			final CreatePaymentDto createPaymentDto,
-			final Long orderId,
-			final String transactionId){
+	public static CreatePaymentResponseDto mapCreatePaymentResponse(final Transaction transaction){
 
 		return CreatePaymentResponseDto
 				.builder()
-				.orderId(orderId)
-				.transactionId(transactionId)
-				.status(createPaymentResponse.getStatus())
-				.message(createPaymentResponse.getMessage())
-				.currency(createPaymentDto.getCurrency())
-				.value(createPaymentDto.getValue())
+				.orderId(transaction.getOrderId())
+				.transactionId(transaction.getId())
+				.status(transaction.getStatus())
+				.message(transaction.getMessage())
+				.currency(transaction.getCurrency())
+				.value(transaction.getValue())
+				.antifraudStatus(transaction.getAntifraudStatus())
+				.antifraudMessage(transaction.getAntifraudMessage())
 				.build();
 	}
 

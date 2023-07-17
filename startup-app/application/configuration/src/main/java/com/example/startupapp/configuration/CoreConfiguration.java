@@ -2,6 +2,7 @@ package com.example.startupapp.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.example.startupapp.AntifraudApiMock;
 import com.example.startupapp.BankApiMock;
 import com.example.startupapp.repository.OrderRepository;
 import com.example.startupapp.repository.TransactionRepository;
@@ -26,10 +27,11 @@ public class CoreConfiguration {
 	 */
 	@Bean
 	public IPaymentService createPaymentService(final BankApiMock bankApiMock,
+												final AntifraudApiMock antifraudApiMock,
 												final TransactionRepository transactionRepository,
 												final OrderRepository orderRepository) {
 
-		return new PaymentService(bankApiMock, transactionRepository, orderRepository);
+		return new PaymentService(bankApiMock,antifraudApiMock, transactionRepository, orderRepository);
 
 	}
 

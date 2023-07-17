@@ -3,12 +3,12 @@
     "method": "POST",
     "url": "/antifraud",
     "bodyPatterns" : [
-      {"matchesJsonPath" : "$.holder"},
-      {"matchesJsonPath" : "$[?(@.number == '4542759458958822')]"},
-      {"matchesJsonPath" : "$.csc"},
-      {"matchesJsonPath" : "$.document"},
-      {"matchesJsonPath" : "$.monthExpiration"},
-      {"matchesJsonPath" : "$.yearExpiration"}
+      {"matchesJsonPath" : "$.cardHolderName"},
+      {"matchesJsonPath" : "$[?(@.cardNumber == '4542759458958822')]"},
+      {"matchesJsonPath" : "$.cardCsc"},
+      {"matchesJsonPath" : "$.holderDocument"},
+      {"matchesJsonPath" : "$.month"},
+      {"matchesJsonPath" : "$.year"}
     ]
   },
   "response": {

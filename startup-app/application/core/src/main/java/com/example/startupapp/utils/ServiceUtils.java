@@ -3,11 +3,13 @@ package com.example.startupapp.utils;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import com.example.startupapp.constants.AntifraudStatus;
 import com.example.startupapp.constants.OrderStatus;
 import com.example.startupapp.constants.TransactionStatus;
 import com.example.startupapp.constants.TransactionType;
 import com.example.startupapp.dao.Order;
 import com.example.startupapp.dao.Transaction;
+import com.example.startupapp.dto.AntifraudResponseDto;
 import com.example.startupapp.dto.payments.CreatePaymentDto;
 import com.example.startupapp.dto.PaymentResponseBankDto;
 import com.example.startupapp.dto.payments.RefundPaymentDto;
@@ -20,10 +22,8 @@ import com.example.startupapp.dto.payments.RefundPaymentDto;
  */
 public class ServiceUtils {
 
-	public static Transaction buildTransactionDaoToSave(final TransactionStatus transactionStatus,
-														final String message,
-														final Long orderId,
-														final CreatePaymentDto createPaymentDto){
+	public static Transaction buildInitialTransactionDaoToSave(final Long orderId,
+															   final CreatePaymentDto createPaymentDto){
 
 		return Transaction
 				.builder()
@@ -34,32 +34,28 @@ public class ServiceUtils {
 				.merchantName(createPaymentDto.getMerchantName())
 				.value(createPaymentDto.getValue())
 				.currency(createPaymentDto.getCurrency())
-				.buyerName(createPaymentDto.getBuyer().getFirstName()+createPaymentDto.getBuyer().getLastName())
+				.buyerName(createPaymentDto.getBuyer().getFirstName()+" "+createPaymentDto.getBuyer().getLastName())
 				.buyerDocument(createPaymentDto.getBuyer().getDocument())
-				.status(transactionStatus)
-				.message(message)
+				.status(TransactionStatus.PENDING)
 				.creationDate(new Timestamp(System.currentTimeMillis()))
 				.build();
 	}
 
-	public static Transaction buildTransactionDaoToSave(final TransactionStatus transactionStatus,
-														final String message,
-														final RefundPaymentDto refundPaymentDto,
-														final Transaction firstTransaction){
+	public static Transaction buildTransactionDaoToSave(final RefundPaymentDto refundPaymentDto,
+														final Transaction parentTransaction){
 
 		return Transaction
 				.builder()
 				.id(generateTransactionId())
 				.orderId(refundPaymentDto.getOrderId())
 				.type(TransactionType.REFUND)
-				.paymentMethod(firstTransaction.getPaymentMethod())
-				.merchantName(firstTransaction.getMerchantName())
-				.value(firstTransaction.getValue())
-				.currency(firstTransaction.getCurrency())
-				.buyerName(firstTransaction.getBuyerName())
-				.buyerDocument(firstTransaction.getBuyerDocument())
-				.status(transactionStatus)
-				.message(message)
+				.paymentMethod(parentTransaction.getPaymentMethod())
+				.merchantName(parentTransaction.getMerchantName())
+				.value(parentTransaction.getValue())
+				.currency(parentTransaction.getCurrency())
+				.buyerName(parentTransaction.getBuyerName())
+				.buyerDocument(parentTransaction.getBuyerDocument())
+				.status(TransactionStatus.PENDING)
 				.creationDate(new Timestamp(System.currentTimeMillis()))
 				.build();
 	}
@@ -80,11 +76,38 @@ public class ServiceUtils {
 		return orderDao;
 	}
 
+	public static Order updateOrderDaoRefund(final Order orderDao,
+											 final PaymentResponseBankDto bankResponse){
+
+		orderDao.setStatus(bankResponse.getStatus().equals(TransactionStatus.APPROVED) ? OrderStatus.REFUNDED : OrderStatus.CAPTURED);
+		return orderDao;
+	}
+
+	public static Order updateOrderDao(final Order orderDao,
+									   final AntifraudResponseDto antifraudResponseDto){
+
+		if(antifraudResponseDto.getStatus().equals(AntifraudStatus.FRAUD)){
+			orderDao.setStatus(OrderStatus.DECLINED);
+		}
+		return orderDao;
+	}
+
 	public static Transaction updateTransactionDao(final Transaction transactionDao,
 												   final PaymentResponseBankDto bankResponse){
 
 		transactionDao.setStatus(bankResponse.getStatus());
 		transactionDao.setMessage(bankResponse.getMessage());
+		return transactionDao;
+	}
+
+	public static Transaction updateTransactionDao(final Transaction transactionDao,
+												   final AntifraudResponseDto antifraudResponseDto){
+
+		if (antifraudResponseDto.getStatus().equals(AntifraudStatus.FRAUD)){
+			transactionDao.setStatus(TransactionStatus.DECLINED);
+		}
+		transactionDao.setAntifraudStatus(antifraudResponseDto.getStatus());
+		transactionDao.setAntifraudMessage(antifraudResponseDto.getMessage());
 		return transactionDao;
 	}
 

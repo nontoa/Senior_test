@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.example.startupapp.configuration.BankApiMockConfiguration;
+import com.example.startupapp.configuration.MockConfiguration;
 import com.example.startupapp.constants.BankMockEndpoint;
 import com.example.startupapp.dto.CreatePaymentBankDto;
 import com.example.startupapp.dto.PaymentResponseBankDto;
@@ -16,7 +16,7 @@ import com.example.startupapp.dto.RefundPaymentBankDto;
  * @author Nicolas Nontoa
  * @version 1.0.0
  */
-@FeignClient(name = "bankMock", url = "${bankMock.url}", configuration = BankApiMockConfiguration.class)
+@FeignClient(name = "bankMock", url = "${bankMock.url}", configuration = MockConfiguration.class)
 public interface BankApiMock {
 
 	@PostMapping(value =BankMockEndpoint.PAYMENTS, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import com.example.startupapp.constants.AntifraudStatus;
 import com.example.startupapp.constants.TransactionStatus;
 import com.example.startupapp.constants.TransactionType;
 import jakarta.persistence.Column;
@@ -67,6 +68,13 @@ public class Transaction implements Serializable {
 
 	@Column
 	private String message;
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private AntifraudStatus antifraudStatus;
+
+	@Column
+	private String antifraudMessage;
 
 	@Column
 	private Timestamp creationDate;

@@ -11,6 +11,9 @@ server:
 bankMock:
     url: http://localhost:10982
 
+#Antifraud mock url
+antifraudMock:
+    url: http://localhost:10983
 
 # Postgresql configuration
 spring:
@@ -20,3 +23,10 @@ spring:
         password: postgres
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+retry:
+    database:
+        maxAttempts: 5
+        backoffDelay: 3000
+    maxAttempts: 3
+    backoffDelay: 1000

@@ -2,6 +2,7 @@ package com.example.startupapp.dto.payments;
 
 import java.math.BigDecimal;
 
+import com.example.startupapp.constants.AntifraudStatus;
 import com.example.startupapp.constants.TransactionStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -36,6 +37,18 @@ public class CreatePaymentResponseDto {
 	 */
 	@NotNull
 	private TransactionStatus status;
+
+	/**
+	 * Status for antifraud evaluation
+	 */
+	@NotNull
+	private AntifraudStatus antifraudStatus;
+
+	/**
+	 * Message for antifraud evaluation
+	 */
+	@NotNull
+	private String antifraudMessage;
 
 	/**
 	 * Message

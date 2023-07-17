@@ -6,6 +6,7 @@ import static org.testng.Assert.assertSame;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import com.example.startupapp.AntifraudApiMock;
 import com.example.startupapp.BankApiMock;
 import com.example.startupapp.repository.OrderRepository;
 import com.example.startupapp.repository.TransactionRepository;
@@ -19,6 +20,7 @@ import com.example.startupapp.repository.TransactionRepository;
 public class CoreConfigurationTest {
 
 	BankApiMock bankApiMock;
+	AntifraudApiMock antifraudApiMock;
 	TransactionRepository transactionRepository;
 	OrderRepository orderRepository;
 
@@ -36,10 +38,12 @@ public class CoreConfigurationTest {
 	public void createPaymentServiceTest() throws NoSuchFieldException, IllegalAccessException {
 
 		var paymentService = configuration.createPaymentService(bankApiMock,
+																antifraudApiMock,
 																transactionRepository,
 																orderRepository);
 
 		assertSame(getPrivateFieldValue(paymentService, "bankApiMock"), bankApiMock);
+		assertSame(getPrivateFieldValue(paymentService, "antifraudApiMock"), antifraudApiMock);
 		assertSame(getPrivateFieldValue(paymentService, "transactionRepository"), transactionRepository);
 		assertSame(getPrivateFieldValue(paymentService, "orderRepository"), orderRepository);
 	}

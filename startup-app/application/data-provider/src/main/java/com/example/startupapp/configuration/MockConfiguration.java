@@ -14,12 +14,12 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 
 /**
- * Configures feign to be used as Bank API Mock.
+ * Configures feign to be used as Mock.
  *
  * @author Nicolas Nontoa
  * @version 1.0.0
  */
-public class BankApiMockConfiguration {
+public class MockConfiguration {
 
 	@Bean
 	public Decoder feignDecoder() {

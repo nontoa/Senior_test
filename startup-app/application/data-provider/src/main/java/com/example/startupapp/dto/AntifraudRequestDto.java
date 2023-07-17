@@ -1,7 +1,5 @@
 package com.example.startupapp.dto;
 
-import java.math.BigDecimal;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -9,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Data transfer object to define the payment for the bank.
+ * Data transfer object to define the antifraud request for the antifraud mock.
  *
  * @author Nicolas Nontoa
  * @version 1.0.0
@@ -17,38 +15,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class CreatePaymentBankDto {
-
-	/**
-	 * Order Identifier
-	 */
-	@NotNull
-	private Long orderId;
-
-	/**
-	 * Transaction ID related to the payment
-	 */
-	@NotNull
-	private String transactionId;
-
-	/**
-	 * One of the available payment methods
-	 * listed above
-	 */
-	@NotNull
-	private String paymentMethod;
-
-	/**
-	 * Value amount of the payment
-	 */
-	@NotNull
-	private BigDecimal value;
-
-	/**
-	 * Currency code (ISO 4217 alpha-3)
-	 */
-	@NotNull
-	private String currency;
+public class AntifraudRequestDto {
 
 	/**
 	 * cardholder name
@@ -87,6 +54,5 @@ public class CreatePaymentBankDto {
 	@NotNull
 	@Size(min=4, max=4)
 	private String year;
-
 
 }

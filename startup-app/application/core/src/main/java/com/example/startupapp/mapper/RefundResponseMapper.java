@@ -1,7 +1,6 @@
 package com.example.startupapp.mapper;
 
-import com.example.startupapp.dto.PaymentResponseBankDto;
-import com.example.startupapp.dto.payments.RefundPaymentDto;
+import com.example.startupapp.dao.Transaction;
 import com.example.startupapp.dto.payments.RefundPaymentResponseDto;
 
 /**
@@ -21,20 +20,18 @@ public class RefundResponseMapper {
 
 	/**
 	 * Builds a {@link RefundPaymentResponseDto}
-	 * @param createRefundResponse {@link PaymentResponseBankDto}
-	 * @param refundPaymentDto {@link RefundPaymentDto}
+	 *
+	 * @param transaction {@link Transaction}
 	 * @return {@link RefundPaymentResponseDto}
 	 */
-	public static RefundPaymentResponseDto mapCreateRefundResponse(final PaymentResponseBankDto createRefundResponse,
-																   final RefundPaymentDto refundPaymentDto,
-																   final String transactionId){
+	public static RefundPaymentResponseDto mapCreateRefundResponse(final Transaction transaction){
 
 		return RefundPaymentResponseDto
 				.builder()
-				.orderId(refundPaymentDto.getOrderId())
-				.transactionId(transactionId)
-				.status(createRefundResponse.getStatus())
-				.message(createRefundResponse.getMessage())
+				.orderId(transaction.getOrderId())
+				.transactionId(transaction.getId())
+				.status(transaction.getStatus())
+				.message(transaction.getMessage())
 				.build();
 	}
 
