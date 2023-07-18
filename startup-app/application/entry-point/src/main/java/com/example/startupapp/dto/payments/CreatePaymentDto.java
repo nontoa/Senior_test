@@ -3,6 +3,7 @@ package com.example.startupapp.dto.payments;
 import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class CreatePaymentDto {
 	 * listed above
 	 */
 	@NotNull
+	@Pattern(regexp = "^(VISA|MASTERCARD|AMEX)$")
 	private String paymentMethod;
 
 	/**

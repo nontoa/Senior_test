@@ -27,7 +27,13 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler(value ={IllegalArgumentException.class})
 	public ResponseEntity<Object> handleIllegalException(final IllegalArgumentException ex, final WebRequest request){
 
-		return this.handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		final var body = StartupErrorMessage
+				.builder()
+				.status("error")
+				.code(HttpStatus.INTERNAL_SERVER_ERROR.name())
+				.message(ex.getMessage())
+				.build();
+		return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
 	/**
@@ -45,7 +51,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 				.code(HttpStatus.INTERNAL_SERVER_ERROR.name())
 				.message(ex.getMessage())
 				.build();
-		return this.handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
 	/**
@@ -62,7 +68,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 				.builder()
 				.status("error")
 				.code(HttpStatus.INTERNAL_SERVER_ERROR.name())
-				.message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+				.message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()+" "+ex.getMessage())
 				.build();
 
 		return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
