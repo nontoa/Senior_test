@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "2f2c2f95-a2a0-43b2-92a2-dcf7a98fd8a2",
+		"name": "SeniorTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7177152"
+	},
+	"item": [
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "CreatePayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"paymentMethod\": \"VISA\",\n    \"merchantName\": \"mystore\",\n    \"value\": 110000,\n    \"currency\": \"COP\",\n    \"country\": \"CO\",\n    \"card\": {\n        \"holder\": \"Nicolas\",\n        \"document\": \"39295416023\",\n        \"number\": \"5105105105105100\",\n        \"csc\": \"777\",\n        \"expiration\": {\n            \"month\": \"12\",\n            \"year\": \"2023\"\n        }\n    },\n    \"buyer\": {\n        \"firstName\": \"Nicolas\",\n        \"lastName\": \"Nontoa\",\n        \"document\": \"39295416023\",\n        \"documentType\": \"CC\",\n        \"email\": \"nicolas@example.com\",\n        \"phone\": \"+5521999999999\"\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8899/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8899",
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Refund",
+			"item": [
+				{
+					"name": "Refund",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": 4,\n    \"reason\": \"I want to refund\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8899/payments/refund",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8899",
+							"path": [
+								"payments",
+								"refund"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TransactionInfo",
+			"item": [
+				{
+					"name": "TransactionInformation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8899/operations/transactions/53ba219a-b3ec-4575-bf48-9248407fd1c7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8899",
+							"path": [
+								"operations",
+								"transactions",
+								"53ba219a-b3ec-4575-bf48-9248407fd1c7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OrderInfo",
+			"item": [
+				{
+					"name": "OrderInformation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8899/operations/orders/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8899",
+							"path": [
+								"operations",
+								"orders",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BankMock",
+			"item": [
+				{
+					"name": "CreatePayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"transactionId\": \"15397FD5A72A49D58A8633252B7CCBKK\",\n    \"paymentMethod\": \"Visa\",\n    \"value\": 150000,\n    \"currency\": \"COP\",\n    \"cardHolderName\": \"APPROVED\",\n    \"cardNumber\": \"5105105105105100\",\n    \"cardCsc\": \"777\",\n    \"holderDocument\": \"39295416023\",\n    \"month\": \"05\",\n    \"year\": \"2023\"\n    \n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10982/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10982",
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create refund",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": 12345,\n    \"reason\": \"Invalid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10982/payments/refund",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10982",
+							"path": [
+								"payments",
+								"refund"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AntifraudMock",
+			"item": [
+				{
+					"name": "Approve antifraud",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardHolderName\": \"Nicolas\",\n    \"cardNumber\": \"4542759458958823\",\n    \"cardCsc\" : \"777\",\n    \"holderDocument\": \"123456789\",\n    \"month\": \"12\",\n    \"year\": \"2023\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10983/antifraud",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10983",
+							"path": [
+								"antifraud"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decline antifraud",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardHolderName\": \"Nicolas\",\n    \"cardNumber\": \"4542759458958822\",\n    \"cardCsc\" : \"777\",\n    \"holderDocument\": \"123456789\",\n    \"month\": \"12\",\n    \"year\": \"2023\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10983/antifraud",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10983",
+							"path": [
+								"antifraud"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
